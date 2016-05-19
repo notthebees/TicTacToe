@@ -40,6 +40,8 @@ public class TicTacToe {
                 crosses.add(move);
             }
 
+            display();
+
             if (wins(noughts)) {
                 System.out.println("Player 1 wins!");
                 return;
@@ -49,6 +51,24 @@ public class TicTacToe {
             }
         }
         System.out.println("Tie!");
+    }
+
+    private void display() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                final int pos = i * 3 + j + 1;
+                if (noughts.contains(pos)) {
+                    builder.append('o');
+                } else if (crosses.contains(pos)) {
+                    builder.append('x');
+                } else {
+                    builder.append('.');
+                }
+            }
+            builder.append('\n');
+        }
+        System.out.println(builder.toString());
     }
 
     private boolean wins(final Set<Integer> moves) {
