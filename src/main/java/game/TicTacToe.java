@@ -8,25 +8,16 @@ public class TicTacToe {
 
     private final Set<Integer> noughts = new HashSet<Integer>();
     private final Set<Integer> crosses = new HashSet<Integer>();
-    private boolean gameOver;
-
-    public TicTacToe() {
-        gameOver = false;
-    }
 
     public static void main(String[] args) {
         final TicTacToe game = new TicTacToe();
         final MoveProcessor moveProcessor = new MoveProcessor();
 
-        for (int round = 0; round < 9; round++) {
-            int move = moveProcessor.move(game, round);
+        int round = 0;
+        while (!game.isOver()) {
+            int move = moveProcessor.move(game, round++);
             game.playMove(move);
             game.display();
-            game.checkStatus();
-            if (game.isOver()) {
-                System.out.println(game.result().message());
-                return;
-            }
         }
         System.out.println(game.result().message());
     }
@@ -38,11 +29,7 @@ public class TicTacToe {
     }
 
     public boolean isOver() {
-        return gameOver;
-    }
-
-    public void checkStatus() {
-        if (wins(noughts) || wins(crosses)) gameOver = true;
+        return (wins(noughts) || wins(crosses) || noughts.size() > 4);
     }
 
     public void playMove(final int move) {
