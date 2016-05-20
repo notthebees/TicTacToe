@@ -23,9 +23,18 @@ public class TicTacToe {
             game.playMove(move);
             game.display();
             game.checkStatus();
-            if (game.isOver()) return;
+            if (game.isOver()) {
+                System.out.println(game.result().message());
+                return;
+            }
         }
-        System.out.println("Tie!");
+        System.out.println(game.result().message());
+    }
+
+    public Result result() {
+        if (wins(noughts)) return Result.P1_WIN;
+        else if (wins(crosses)) return Result.P2_WIN;
+        else return Result.TIE;
     }
 
     public boolean isOver() {
@@ -33,13 +42,7 @@ public class TicTacToe {
     }
 
     public void checkStatus() {
-        if (wins(noughts)) {
-            gameOver = true;
-            System.out.println("Player 1 wins!");
-        } else if (wins(crosses)) {
-            gameOver = true;
-            System.out.println("Player 2 wins!");
-        }
+        if (wins(noughts) || wins(crosses)) gameOver = true;
     }
 
     public void playMove(final int move) {
