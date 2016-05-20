@@ -2,7 +2,6 @@ package game;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 public class TicTacToe {
@@ -10,17 +9,17 @@ public class TicTacToe {
     private final Set<Integer> noughts = new HashSet<Integer>();
     private final Set<Integer> crosses = new HashSet<Integer>();
     private boolean gameOver;
-    private final Scanner scanner;
 
     public TicTacToe() {
         gameOver = false;
-        scanner = new Scanner(System.in);
     }
 
     public static void main(String[] args) {
         final TicTacToe game = new TicTacToe();
+        final MoveProcessor moveProcessor = new MoveProcessor();
+
         for (int round = 0; round < 9; round++) {
-            int move = game.move(round);
+            int move = moveProcessor.move(game, round);
             game.playMove(move);
             game.display();
             game.checkStatus();
@@ -51,7 +50,7 @@ public class TicTacToe {
         }
     }
 
-    private boolean isNotValid(final int move) {
+    public boolean isNotValid(final int move) {
         return noughts.contains(move) || crosses.contains(move);
     }
 
@@ -84,15 +83,4 @@ public class TicTacToe {
                 || moves.containsAll(Arrays.asList(3, 5, 7));
     }
 
-    public int move(int round) {
-        String player = (round % 2 == 0) ? "1" : "2";
-        System.out.println("Player " + player + " move:");
-        int move = scanner.nextInt();
-        while (isNotValid(move)) {
-            System.out.println("Not valid.");
-            System.out.println("Player " + player + " move:");
-            move = scanner.nextInt();
-        }
-        return move;
-    }
 }
