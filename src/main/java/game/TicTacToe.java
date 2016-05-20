@@ -19,8 +19,9 @@ public class TicTacToe {
 
     public static void main(String[] args) {
         final TicTacToe game = new TicTacToe();
-        for (int i = 0; i < 9; i++) {
-            game.playMove(i);
+        for (int round = 0; round < 9; round++) {
+            int move = game.move(round);
+            game.playMove(move);
             game.display();
             game.checkStatus();
             if (game.isOver()) return;
@@ -42,19 +43,16 @@ public class TicTacToe {
         }
     }
 
-    public void playMove(final int i) {
-        String player = (i % 2 == 0) ? "1" : "2";
-        System.out.println("Player " + player + " move:");
-        int move = move();
-        while (noughts.contains(move) || crosses.contains(move)) {
-            System.out.println("Not valid. Player " + player + " move:");
-            move = move();
-        }
-        if (i % 2 == 0) {
+    public void playMove(final int move) {
+        if (noughts.size() <= crosses.size()) {
             noughts.add(move);
         } else {
             crosses.add(move);
         }
+    }
+
+    private boolean isNotValid(final int move) {
+        return noughts.contains(move) || crosses.contains(move);
     }
 
     public void display() {
@@ -86,7 +84,15 @@ public class TicTacToe {
                 || moves.containsAll(Arrays.asList(3, 5, 7));
     }
 
-    public int move() {
-        return scanner.nextInt();
+    public int move(int round) {
+        String player = (round % 2 == 0) ? "1" : "2";
+        System.out.println("Player " + player + " move:");
+        int move = scanner.nextInt();
+        while (isNotValid(move)) {
+            System.out.println("Not valid.");
+            System.out.println("Player " + player + " move:");
+            move = scanner.nextInt();
+        }
+        return move;
     }
 }
