@@ -9,51 +9,60 @@ public class TicTacToe {
 
     private final Set<Integer> noughts = new HashSet<Integer>();
     private final Set<Integer> crosses = new HashSet<Integer>();
+    private boolean gameOver;
     private final Scanner scanner;
 
     public TicTacToe() {
+        gameOver = false;
         scanner = new Scanner(System.in);
     }
 
     public static void main(String[] args) {
-        TicTacToe game = new TicTacToe();
-        game.play();
-    }
-
-    public void play() {
+        final TicTacToe game = new TicTacToe();
         for (int i = 0; i < 9; i++) {
-            if (i % 2 == 0) {
-                System.out.println("Player 1 move:");
-                int move = move();
-                while (noughts.contains(move) || crosses.contains(move)) {
-                    System.out.println("Not valid. Player 1 move:");
-                    move = move();
-                }
-                noughts.add(move);
-            } else {
-                System.out.println("Player 2 move:");
-                int move = move();
-                while (noughts.contains(move) || crosses.contains(move)) {
-                    System.out.println("Not valid. Player 2 move:");
-                    move = move();
-                }
-                crosses.add(move);
-            }
-
-            display();
-
-            if (wins(noughts)) {
-                System.out.println("Player 1 wins!");
-                return;
-            } else if (wins(crosses)) {
-                System.out.println("Player 2 wins!");
-                return;
-            }
+            game.playRound(i);
+            game.display();
+            game.checkStatus();
+            if (game.isOver()) return;
         }
         System.out.println("Tie!");
     }
 
-    private void display() {
+    public boolean isOver() {
+        return gameOver;
+    }
+
+    public void checkStatus() {
+        if (wins(noughts)) {
+            gameOver = true;
+            System.out.println("Player 1 wins!");
+        } else if (wins(crosses)) {
+            gameOver = true;
+            System.out.println("Player 2 wins!");
+        }
+    }
+
+    public void playRound(final int i) {
+        if (i % 2 == 0) {
+            System.out.println("Player 1 move:");
+            int move = move();
+            while (noughts.contains(move) || crosses.contains(move)) {
+                System.out.println("Not valid. Player 1 move:");
+                move = move();
+            }
+            noughts.add(move);
+        } else {
+            System.out.println("Player 2 move:");
+            int move = move();
+            while (noughts.contains(move) || crosses.contains(move)) {
+                System.out.println("Not valid. Player 2 move:");
+                move = move();
+            }
+            crosses.add(move);
+        }
+    }
+
+    public void display() {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
