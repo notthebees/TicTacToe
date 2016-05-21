@@ -7,6 +7,23 @@ import org.junit.Test;
 public class TestTicTacToe {
 
     @Test
+    public void unfinishedGame() {
+        TicTacToe game = new TicTacToe();
+
+        game.playMove(1);
+        game.playMove(5);
+        game.playMove(2);
+        game.playMove(3);
+        game.playMove(7);
+        game.playMove(4);
+        game.playMove(6);
+        game.playMove(9);
+
+        MatcherAssert.assertThat(game.isOver(), Matchers.equalTo(false));
+
+    }
+
+    @Test
     public void player2Wins() {
         TicTacToe game = new TicTacToe();
 
