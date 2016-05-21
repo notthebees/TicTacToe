@@ -7,6 +7,18 @@ import org.junit.Test;
 public class TestTicTacToe {
 
     @Test
+    public void cannotPlayMoveThatHasAlreadyBeenPlayed() {
+        TicTacToe game = new TicTacToe();
+
+        game.playMove(1);
+        game.playMove(2);
+
+        MatcherAssert.assertThat(game.isNotValid(1), Matchers.equalTo(true));
+        MatcherAssert.assertThat(game.isNotValid(2), Matchers.equalTo(true));
+        MatcherAssert.assertThat(game.isNotValid(3), Matchers.equalTo(false));
+    }
+
+    @Test
     public void unfinishedGame() {
         TicTacToe game = new TicTacToe();
 
