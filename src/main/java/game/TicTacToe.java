@@ -8,6 +8,11 @@ public class TicTacToe {
 
     private final Set<Integer> noughts = new HashSet<Integer>();
     private final Set<Integer> crosses = new HashSet<Integer>();
+    private final Display display;
+
+    public TicTacToe() {
+        display = new Display();
+    }
 
     public static void main(String[] args) {
         final TicTacToe game = new TicTacToe();
@@ -45,21 +50,7 @@ public class TicTacToe {
     }
 
     public void display() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                final int pos = i * 3 + j + 1;
-                if (noughts.contains(pos)) {
-                    builder.append('o');
-                } else if (crosses.contains(pos)) {
-                    builder.append('x');
-                } else {
-                    builder.append('.');
-                }
-            }
-            builder.append('\n');
-        }
-        System.out.println(builder.toString());
+        display.display(noughts, crosses);
     }
 
     private boolean wins(final Set<Integer> moves) {
